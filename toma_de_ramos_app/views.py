@@ -53,7 +53,7 @@ def api_todo(request):
 
 def api_cursos(request):
     if request.method == 'GET':
-        registros = tablaRamos.objects.values('NRC', 'TITULO', 'PROFESOR').distinct()          
+        registros = tablaRamos.objects.values('NRC', 'TITULO', 'PROFESOR', 'CREDITO').distinct()          
         return JsonResponse(list(registros), safe=False)                      
     return JsonResponse({'error': 'Método no permitido'}, status=405)
 

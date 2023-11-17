@@ -40,12 +40,11 @@ fetch(URL_BASE+'/api/cursos')
   });
 
 let redNotification = () => {
-  let body = document.body;
-  body.innerHTML = ""
-  notie.force({
+  notie.alert({
     type: 3,
     text: 'Hubo dificultades de conexión al intentar completar la operación',
     buttonText: 'OK',
+    time: 5,
     callback: function () {
       location.reload();
     }
@@ -126,7 +125,37 @@ const resume_title = (title) => {
   return iniciales.join('');
 };
 
-let refresh_horario = () => {
+let refresh_horario = async (NRC) => {
+  
+  try {
+    if (localStorage.getItem(`ramos${NRC}Horario`) == null) {
+      const horarioData = await get_HorarioNrc(NRC);
+      localStorage.setItem(`ramos${NRC}Horario`, JSON.stringify(horarioData));
+    }
+
+    if (localStorage.getItem(`ramos${NRC}Pruebas`) == null) {
+      const pruebasData = await get_PruebasNrc(NRC);
+      localStorage.setItem(`ramos${NRC}Pruebas`, JSON.stringify(pruebasData));
+    }
+
+    if (localStorage.getItem(`ramos${NRC}Examen`) == null) {
+      const examenData = await get_ExamenNrc(NRC);
+      localStorage.setItem(`ramos${NRC}Examen`, JSON.stringify(examenData));
+    }
+
+    refresh_page();
+  } catch (error) {
+    console.error(error);
+    ramosSelected = ramosSelected.filter(elemento => elemento.NRC !== NRC);
+    localStorage.setItem('ramosSelectedSave', JSON.stringify(ramosSelected));
+    localStorage.removeItem(`ramos${NRC}Horario`); 
+    localStorage.removeItem(`ramos${NRC}Pruebas`); 
+    localStorage.removeItem(`ramos${NRC}Examen`); 
+    redNotification();
+  }
+};
+
+let refresh_page = () => {
   actualizar_pruebas();
   actualizar_examenes();
   actualizar_horario();
@@ -163,8 +192,8 @@ let remove_all = () => {
   let creditHeader = document.getElementById("creditosHeader");
   creditHeader.classList.remove("border-danger")
   ramosSelected = []
-  localStorage.removeItem('ramosSelectedSave');
-  refresh_horario();
+  localStorage.clear(); 
+  refresh_page();
 }
 
 let get_HorarioNrc = (nrcRamo) => {
@@ -231,9 +260,7 @@ let actualizar_horario = () => {
   crearHorario();
   console.log("actualizar_horario")
   ramosSelected.map(ramo => {
-    get_HorarioNrc(ramo.NRC).then(data => {
-      console.log(ramo)
-      data.map(clase => {
+    JSON.parse(localStorage.getItem(`ramos${ramo.NRC}Horario`)).map(clase => {
         console.log(clase)
         diaSemana.map(dia =>{
           if (clase[dia] != "") {
@@ -263,11 +290,7 @@ let actualizar_horario = () => {
           }
         })
       })
-    }).catch(error => {
-      console.error(error);
-      redNotification();
     });
-  });
 }
 
 let actualizar_lista = () => {
@@ -327,8 +350,7 @@ let actualizar_pruebas = () => {
   let contenedor = document.getElementById("ListaPruebas");
   contenedor.innerHTML = ""
   ramosSelected.map(ramo => {
-    get_PruebasNrc(ramo.NRC).then(data => {      
-      data.map(prueba => {
+    JSON.parse(localStorage.getItem(`ramos${ramo.NRC}Pruebas`)).map(prueba => {
         let hora = diaSemana.map(dia => prueba[dia]).filter(valor => valor !== "")[0];
         contenedor.innerHTML += `
         <div class="col-xxl-6 col-sm-12 mt-1">
@@ -343,19 +365,14 @@ let actualizar_pruebas = () => {
           </div>
         </div>`
       })
-    }).catch(error => {
-      console.error(error);
-      redNotification();
-    });
-  })
-}
+    })
+  }
 
 let actualizar_examenes = () => {
   let contenedor = document.getElementById("ListaExamenes");
   contenedor.innerHTML = ""
   ramosSelected.map(ramo => {
-    get_ExamenNrc(ramo.NRC).then(data => {
-      data.map(examen => {
+    JSON.parse(localStorage.getItem(`ramos${ramo.NRC}Examen`)).map(examen => {
         let hora = diaSemana.map(dia => examen[dia]).filter(valor => valor !== "")[0];
         contenedor.innerHTML += `
         <div class="col-xxl-6 col-sm-12 mt-1">
@@ -370,12 +387,8 @@ let actualizar_examenes = () => {
           </div>
         </div>`
       })
-    }).catch(error => {
-      console.error(error);
-      redNotification();
-    });
-  })
-}
+    })
+  }
 
 let actualizar_creditos = () => {
   let creditCounter = document.getElementById("CreditValue");
@@ -383,8 +396,7 @@ let actualizar_creditos = () => {
   let counter = 0
   creditCounter.innerHTML = 0
   ramosSelected.map(ramo => {
-    get_RamoNrc(ramo.NRC).then(data => {
-      counter += parseInt(data[0].CREDITO)
+      counter += parseInt(ramo.CREDITO)
       if (counter > 33) {
         mostrarNotificacion("¡Existe Tope de Creditos!")
         creditHeader.classList.add("border-danger")
@@ -395,25 +407,27 @@ let actualizar_creditos = () => {
       creditCounter.innerHTML = counter
       return
     })
-  })
 }
 
 let eliminar_ramo = (nrcRamo) => {
   console.log(nrcRamo)
   console.log("Borrado")
   ramosSelected = ramosSelected.filter(elemento => elemento.NRC !== nrcRamo);
-  refresh_horario();
+  refresh_page();
   localStorage.setItem('ramosSelectedSave', JSON.stringify(ramosSelected));
+  localStorage.removeItem(`ramos${nrcRamo}Horario`); 
+  localStorage.removeItem(`ramos${nrcRamo}Pruebas`); 
+  localStorage.removeItem(`ramos${nrcRamo}Examen`); 
 }
 
 let Agregar_ramo = (ramoSelect) => {
   // Aca debe estar la logica
   console.log("Elemento seleccionado: ", ramoSelect);
   ramosSelected.push(ramoSelect)
-  refresh_horario();
   console.log(ramosSelected)
   localStorage.setItem('ramosSelectedSave', JSON.stringify(ramosSelected));
   
+  refresh_horario(ramoSelect.NRC)
 }
 
 let crearHorario = () => {
@@ -639,8 +653,8 @@ crearHorario();
 
 if (localStorage.getItem('ramosSelectedSave') !== null) {
   ramosSelected = JSON.parse(localStorage.getItem('ramosSelectedSave'));
-  console.log(ramosSelected);
-  refresh_horario();
+  ramosSelected.map(data => refresh_horario(data.NRC))
+  
 }
 
 
