@@ -1,0 +1,95 @@
+/* Estilo para el contenedor principal */
+.search-container {
+    position: relative;
+}
+
+/* Estilo para la lista de resultados */
+.search-results {
+    display: none;
+    position: absolute;
+    width: 95%; /* El mismo ancho que el formulario */
+    top: 100%; /* Alinear la parte superior de la lista con la parte inferior del formulario */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    z-index: 1;
+    border-radius: 10px;
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+.resume-list {
+    max-height: 650px; 
+    overflow-y: auto; 
+    height:650px
+}
+
+.resume-list-eval {
+    max-height: 400px; 
+    overflow-y: auto; 
+    height:400px
+}
+
+#resultsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#resultsList li {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+#resultsList li:hover {
+    background-color: #f0f0f0;
+}
+
+.equal-column {
+    width: 12.5%; /* 100% dividido por 8 columnas */
+}
+
+.equal-row {
+    height: 55px; /* Establece la altura deseada para todas las filas */
+}
+
+.notification {
+    position: fixed;
+    bottom: 30px; /* Puedes ajustar esto para cambiar la posición vertical */
+    right: 30px; /* Puedes ajustar esto para cambiar la posición horizontal */
+    background-color: #c86262;
+    color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    display: none;
+    z-index: 9999;
+}
+
+.notification p {
+    margin: 0;
+}
+
+.fontSizing {
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin: 0px;
+}
+
+.casilla {
+    padding: 2px !important;
+}
+
+.simple-text {
+    margin: 0;
+}
+
+.navbar-dark .navbar-nav .nav-item .dropdown-item.active, .navbar-dark .navbar-nav .nav-item .dropdown-item:focus {
+    background-color: white;
+    color: black;
+}
+
+.navbar-dark .navbar-nav .nav-item .dropdown-item.active, .navbar-dark .navbar-nav .nav-item .dropdown-item:hover {
+    background-color: rgb(231, 231, 231);
+    color: black;
+}

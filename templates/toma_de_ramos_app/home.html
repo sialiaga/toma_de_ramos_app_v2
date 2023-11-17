@@ -1,0 +1,170 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toma de Ramos</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/stylesheet.css' %}">
+    <script src="{% static 'js/html2canvas.js' %}"></script>
+    <script src="{% static 'js/index.js' %}"></script>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body>
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-light">
+        <div class="container">
+          <h1 class="navbar-brand fs-2" style="color: white;">Toma de Ramos</h1>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
+                        Descargar
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" id="SaveHorarioBtn" href="#" style="color: black;">Imagen de Horario</a></li>
+                        <li><a class="dropdown-item" id="SaveEvaluacionesBtn" href="#" style="color: black;">Imagen de Evaluaciones</a></li>
+                        <li><a class="dropdown-item" id="SaveDetallesBtn" href="#" style="color: black;">Imagen de Ramos</a></li>
+                    </ul>
+                </li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+      
+    
+    <!-- notification -->
+    <div id="notification" class="notification">
+        <p id="notification_text"></p>
+    </div>
+
+    <!-- searchbar -->
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+
+            <!-- searchbar -->
+            <div class="col-lg-6 search-container mt-1">
+                <form class="form-inline">
+                    <div class="input-group input-group-lg">
+                        <input id="searchInput" class="form-control border-2 border-secondary rounded-pill" type="text" placeholder="Buscar Ramo" aria-label="Buscar">
+                    </div>
+                </form>
+                <div class="search-results">
+                    <ul id="resultsList">
+                        <!-- Aquí se agregarán los elementos de la lista -->
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Select type -->
+            <div class="col-lg-2 mt-1">
+                <div class="input-group input-group-lg">
+                    <select id="miSelect" class="form-select form-control w-25 border-2 border-secondary rounded-pill" aria-label="Default select example">
+                        <option selected value="TITULO">Titulo</option>
+                        <option value="NRC">NRC</option>
+                        <option value="PROFESOR">Profesor</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+    
+    <div class="container mt-4 mb-4">
+        <div class="row justify-content-center">
+            <!-- Horario -->
+            <div class="col-xxl-9 col-md-12 table-responsive">
+                <table id="MainTable" class="table table-bordered table-fixed">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col" colspan="2"></th>
+                        <th scope="col" class="th-lg equal-column">Lunes</th>
+                        <th scope="col" class="th-lg equal-column">Martes</th>
+                        <th scope="col" class="th-lg equal-column">Miércoles</th>
+                        <th scope="col" class="th-lg equal-column">Jueves</th>
+                        <th scope="col" class="th-lg equal-column">Viernes</th>
+                        <th scope="col" class="th-lg equal-column">Sábado</th>
+                        <th scope="col" class="th-lg equal-column">Domingo</th>
+                      </tr>
+                    </thead>
+                    <tbody id="horario">
+                      <!-- Tu contenido de tabla va aquí -->
+                    </tbody>
+                </table>
+            </div>
+            <!-- Resume-bar type -->
+            <div id="DetallesTable" class="col-xxl-3 col-sm-12 col-lg-6 h-100">                
+                <div id="creditosHeader" class="card mt-1">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-10 col-md-10 h5 fw-bold">
+                                Ramos [ Creditos: <span id="CreditValue">0</span> ]
+                            </div>
+                            <div id="clean-all"class="col-2 col-md-2">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div id="ListaRamosBody" class="card-body resume-list">
+                        <div id="ListaRamos" class="list-group" >
+                        </div>
+                    </div>
+                </div>
+                
+            
+            </div>
+            <!-- Evaluation-Resume-bar type -->
+            <div id="EvaluacionesTable" class="col-xxl-12 col-sm-12 col-lg-6 h-100">
+                <div class="card mt-1">
+                    <div class="card-header">
+                        <div class="h5 fw-bold"> 
+                            Evaluaciones
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div id="pruebaListRow" class="col-xxl-8 col-sm-12">
+                                <div class="card mt-1">
+                                    <div class="card-header">
+                                        <div class="fw-bolder"> 
+                                            Pruebas
+                                        </div>
+                                    </div>
+                                    <div id="pruebaList" class="card-body resume-list-eval">
+                                        <div id="ListaPruebas" class="row">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="examenListRow" class="col-xxl-4 col-sm-12">
+                                <div class="card mt-1">
+                                    <div class="card-header">
+                                        <div class="fw-bolder"> 
+                                            Examenes
+                                        </div>
+                                    </div>
+                                    <div id="examenList" class="card-body resume-list-eval">
+                                        <div id="ListaExamenes" class="row">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
+
