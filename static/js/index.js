@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
+
+
+
 // Realiza una solicitud GET a la URL de todos los cursos
 const URL_BASE = window.location.origin
 
@@ -32,9 +35,22 @@ fetch(URL_BASE+'/api/cursos')
     console.log(data);
   })
   .catch(error => {
-    // Maneja errores de solicitud
     console.error(error);
+    redNotification();
   });
+
+let redNotification = () => {
+  let body = document.body;
+  body.innerHTML = ""
+  notie.force({
+    type: 3,
+    text: 'Hubo dificultades de conexión al intentar completar la operación',
+    buttonText: 'OK',
+    callback: function () {
+      location.reload();
+    }
+  })
+}
 
 let stringToColorCode = (inputString) => {
   let hash = 0;
@@ -45,7 +61,7 @@ let stringToColorCode = (inputString) => {
   return "00000".substring(0, 6 - color.length) + color;
 }
 
-function lightenColor(hex, factor) {
+let lightenColor = (hex, factor) => {
   // Parse el color HEX a RGB
   let r = parseInt(hex.slice(1, 3), 16);
   let g = parseInt(hex.slice(3, 5), 16);
@@ -62,7 +78,7 @@ function lightenColor(hex, factor) {
   return newHex;
 }
 
-function esColorClaro(hexColor, umbral = 128) {
+let is_LightColor = (hexColor, umbral = 128) => {
   // Convierte el color hexadecimal a valores RGB
   const r = parseInt(hexColor.slice(1, 3), 16);
   const g = parseInt(hexColor.slice(3, 5), 16);
@@ -89,7 +105,7 @@ let make_color = (base, tipo="C") => {
     result = "#" + new_base[3] + new_base[0] + new_base[2] + new_base[1] + hex_base
   }
   
-  factor = esColorClaro(result) ? 0 : 100
+  factor = is_LightColor(result) ? 0 : 100
   if (tipo != "C") {
     
     factor += 30
@@ -111,11 +127,12 @@ const resume_title = (title) => {
 };
 
 let refresh_horario = () => {
-  actualizar_lista();
-  actualizar_horario();
-  actualizar_creditos();
   actualizar_pruebas();
   actualizar_examenes();
+  actualizar_horario();
+  actualizar_creditos();
+  actualizar_lista();
+  
   check_ramos();
 }
 
@@ -160,8 +177,8 @@ let get_HorarioNrc = (nrcRamo) => {
       throw new Error('Error al obtener los datos');
     })
     .catch(error => {
-      // Maneja errores de solicitud
       console.error(error);
+      redNotification();
     });
 }
 
@@ -175,8 +192,8 @@ let get_RamoNrc = (nrcRamo) => {
       throw new Error('Error al obtener los datos');
     })
     .catch(error => {
-      // Maneja errores de solicitud
       console.error(error);
+      redNotification();
     });
 }
 
@@ -190,8 +207,8 @@ let get_PruebasNrc = (nrcRamo) => {
       throw new Error('Error al obtener los datos');
     })
     .catch(error => {
-      // Maneja errores de solicitud
       console.error(error);
+      redNotification();
     });
 }
 
@@ -205,8 +222,8 @@ let get_ExamenNrc = (nrcRamo) => {
       throw new Error('Error al obtener los datos');
     })
     .catch(error => {
-      // Maneja errores de solicitud
       console.error(error);
+      redNotification();
     });
 }
 
@@ -248,6 +265,7 @@ let actualizar_horario = () => {
       })
     }).catch(error => {
       console.error(error);
+      redNotification();
     });
   });
 }
@@ -327,6 +345,7 @@ let actualizar_pruebas = () => {
       })
     }).catch(error => {
       console.error(error);
+      redNotification();
     });
   })
 }
@@ -353,6 +372,7 @@ let actualizar_examenes = () => {
       })
     }).catch(error => {
       console.error(error);
+      redNotification();
     });
   })
 }
