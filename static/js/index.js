@@ -57,6 +57,7 @@ let redNotification = () => {
   })
 }
 
+
 let changePageMode = (show_alert = true) => {
   if (is_mode_advance == false) {
     is_mode_advance = true
@@ -68,6 +69,9 @@ let changePageMode = (show_alert = true) => {
     document.getElementById("navbar-ico-text").innerHTML = "TR(A)"
     document.title = "TR(A)"
     document.getElementById("navbar-base").classList.replace("bg-secondary","bg-dark");
+
+    agregarOpcionesBusqueda("NRC")
+    agregarOpcionesBusqueda("CREDITO")
     
     
   }
@@ -81,8 +85,36 @@ let changePageMode = (show_alert = true) => {
     document.getElementById("navbar-ico-text").innerHTML = "TR"
     document.title = "TR"
     document.getElementById("navbar-base").classList.replace("bg-dark", "bg-secondary");
+
+    EliminarOpcionesBusqueda("NRC")
+    EliminarOpcionesBusqueda("CREDITO")
     
   }
+}
+
+let agregarOpcionesBusqueda = (new_opcion) => {
+  var selectElement = document.getElementById("miSelect");
+
+  var newOption = document.createElement("option");
+  newOption.value = new_opcion;
+  newOption.textContent = new_opcion;
+  selectElement.appendChild(newOption);
+}
+
+let EliminarOpcionesBusqueda = (select_opcion) => {
+  var selectElement = document.getElementById("miSelect");
+
+  selectElement.value = "TITULO";
+  tipoBusqueda = "TITULO";
+  document.getElementById("searchInput").placeholder = `Buscar Ramo - ${tipoBusqueda}`;
+
+  for (var i = 0; i < selectElement.options.length; i++) {
+    var option = selectElement.options[i];
+    if (option.value === select_opcion) {
+        selectElement.remove(i);
+        break;
+  }
+}
 }
 
 let stringToColorCode = (inputString) => {
@@ -670,6 +702,7 @@ let cerrarNotificacion = () => {
 
 selectElement.addEventListener("change", function () {
   tipoBusqueda = selectElement.value;
+  document.getElementById("searchInput").placeholder = `Buscar Ramo - ${tipoBusqueda}`;
   console.log("Valor seleccionado: " + tipoBusqueda);
   
 });
