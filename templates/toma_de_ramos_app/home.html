@@ -5,9 +5,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toma de Ramos</title>
+    <title>TREA</title>
+
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{% static 'imgs/iconpage.ico' %}"
+    />
+
     <link rel="stylesheet" type="text/css" href="{% static 'css/stylesheet.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/notie.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/toastr.min.css' %}">
     
     {% load bootstrap5 %}
     {% bootstrap_css %}
@@ -17,7 +25,7 @@
     <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-light">
         <div class="container">
-          <h1 class="navbar-brand fs-2" style="color: white;">Toma de Ramos</h1>
+          <a id="navbar-ico"class="navbar-brand" href="#"><h1 class="fs-2" style="color: white;">TREA</h1></a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -25,12 +33,22 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
-                        Descargar
+                        Agregar 
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" id="SaveHorarioBtn" href="#" style="color: black;">Imagen de Horario</a></li>
-                        <li><a class="dropdown-item" id="SaveEvaluacionesBtn" href="#" style="color: black;">Imagen de Evaluaciones</a></li>
-                        <li><a class="dropdown-item" id="SaveDetallesBtn" href="#" style="color: black;">Imagen de Ramos</a></li>
+                        <li><a class="dropdown-item" id="AgregarRamoBtn" href="#" style="color: black;">Ramo</a></li>
+                        <li><a class="dropdown-item" id="AgregarEvaluacionBtn" href="#" style="color: black;">Evaluacion</a></li>
+                        <li><a class="dropdown-item" id="AgregarExamenBtn" href="#" style="color: black;">Examen</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
+                        Exportar
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" id="SaveHorarioBtn" href="#" style="color: black;">Horario</a></li>
+                        <li><a class="dropdown-item" id="SaveEvaluacionesBtn" href="#" style="color: black;">Evaluaciones</a></li>
+                        <li><a class="dropdown-item" id="SaveDetallesBtn" href="#" style="color: black;">Ramos</a></li>
                     </ul>
                 </li>
             </ul>
@@ -165,6 +183,7 @@
         </div>
     </div>
 
+    <script src="{% static 'js/toastr.min.js' %}"></script>
     <script src="{% static 'js/notie.min.js' %}"></script>
     <script src="{% static 'js/html2canvas.js' %}"></script>
     <script src="{% static 'js/index.js' %}"></script>

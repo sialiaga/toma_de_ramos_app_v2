@@ -276,7 +276,7 @@ let actualizar_horario = () => {
                 class_ramo = "fontSizing"
               }
               else {
-                mostrarNotificacion("¡Existe Tope de horario!");
+                mostrarNotificacion("¡Existe Tope de horario!", "#c86262");
                 celda.style.border = "3px solid red";
                 class_ramo = "fontSizing mt-1"
               }
@@ -398,7 +398,7 @@ let actualizar_creditos = () => {
   ramosSelected.map(ramo => {
       counter += parseInt(ramo.CREDITO)
       if (counter > 33) {
-        mostrarNotificacion("¡Existe Tope de Creditos!")
+        mostrarNotificacion("¡Existe Tope de Creditos!", "#c86262")
         creditHeader.classList.add("border-danger")
       }
       else {
@@ -618,11 +618,12 @@ let SaveDetalles = () => {
   });
 }
 
-let mostrarNotificacion = (notiText) => {
+let mostrarNotificacion = (notiText, color) => {
   var TextSpace = document.getElementById("notification_text");
   TextSpace.innerHTML = notiText
   var notification = document.getElementById("notification");
   notification.style.display = "block";
+  notification.style.backgroundColor = color
   setTimeout(function() {
       cerrarNotificacion();
   }, 5000); // 10000 ms = 10 segundos
