@@ -9,6 +9,12 @@ const URL_BASE = window.location.origin
 let searchInput = document.getElementById("searchInput");
 let selectElement = document.getElementById("miSelect"); 
 
+let is_mode_advance = false
+
+
+
+
+
 // AUX VARS
 let DATA_CURSOS;
 let ramosSelected = []
@@ -49,6 +55,34 @@ let redNotification = () => {
       location.reload();
     }
   })
+}
+
+let changePageMode = (show_alert = true) => {
+  if (is_mode_advance == false) {
+    is_mode_advance = true
+    localStorage.setItem("pageMode", true)
+
+    if (show_alert) Swal.fire("Modo Avanzado Activado");
+    
+    document.getElementById("advance-addtool").hidden = false
+    document.getElementById("navbar-ico-text").innerHTML = "TR(A)"
+    document.title = "TR(A)"
+    document.getElementById("navbar-base").classList.replace("bg-secondary","bg-dark");
+    
+    
+  }
+  else {
+    is_mode_advance = false
+    localStorage.setItem("pageMode", false)
+
+    if (show_alert) Swal.fire("Modo Avanzado Desactivado");
+    
+    document.getElementById("advance-addtool").hidden = true
+    document.getElementById("navbar-ico-text").innerHTML = "TR"
+    document.title = "TR"
+    document.getElementById("navbar-base").classList.replace("bg-dark", "bg-secondary");
+    
+  }
 }
 
 let stringToColorCode = (inputString) => {
@@ -662,7 +696,14 @@ if (localStorage.getItem('ramosSelectedSave') !== null) {
 document.getElementById('SaveHorarioBtn').addEventListener('click', SaveHorario);
 document.getElementById('SaveEvaluacionesBtn').addEventListener('click', SaveEvaluaciones);
 document.getElementById('SaveDetallesBtn').addEventListener('click', SaveDetalles);
+document.getElementById('SaveDetallesBtn').addEventListener('click', SaveDetalles);
 
+document.getElementById('navbar-ico').addEventListener('click', changePageMode);
 
+if (localStorage.getItem('pageMode') == "true") {
+  changePageMode(false)
+} else {
+  localStorage.setItem("pageMode", false)
+}
 
 });

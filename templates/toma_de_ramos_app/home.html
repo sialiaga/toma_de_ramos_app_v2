@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TREA</title>
+    <title>TR</title>
 
     <link
       rel="icon"
@@ -15,7 +15,7 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'css/stylesheet.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/notie.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/toastr.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/sweetalert2.min.css' %}">
     
     {% load bootstrap5 %}
     {% bootstrap_css %}
@@ -23,15 +23,15 @@
 </head>
 <body>
     <!-- Header -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-light">
+    <nav id="navbar-base" class="navbar navbar-expand-lg navbar-dark bg-secondary text-light">
         <div class="container">
-          <a id="navbar-ico"class="navbar-brand" href="#"><h1 class="fs-2" style="color: white;">TREA</h1></a>
+          <a id="navbar-ico" class="navbar-brand" href="#"><h1 id="navbar-ico-text" class="fs-1" style="color: white;">TR</h1></a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item dropdown">
+            <ul  class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li id="advance-addtool" class="nav-item dropdown" hidden >
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white;">
                         Agregar 
                     </a>
@@ -183,7 +183,7 @@
         </div>
     </div>
 
-    <script src="{% static 'js/toastr.min.js' %}"></script>
+    <script src="{% static 'js/sweetalert2.all.min.js' %}"></script>
     <script src="{% static 'js/notie.min.js' %}"></script>
     <script src="{% static 'js/html2canvas.js' %}"></script>
     <script src="{% static 'js/index.js' %}"></script>
