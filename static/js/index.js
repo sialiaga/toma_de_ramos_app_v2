@@ -45,6 +45,11 @@ fetch(URL_BASE+'/api/cursos')
     redNotification();
   });
 
+
+
+
+
+
 let redNotification = () => {
   notie.alert({
     type: 3,
@@ -195,8 +200,70 @@ let refresh_horario = async (NRC) => {
   
   try {
     if (localStorage.getItem(`ramos${NRC}Horario`) == null) {
-      const horarioData = await get_HorarioNrc(NRC);
-      localStorage.setItem(`ramos${NRC}Horario`, JSON.stringify(horarioData));
+      let horarioData = await get_HorarioNrc(NRC);
+      //!ACA ES DONDE HAY QUE CAMBIAR Y HACER LAS CONSULTAS, GIL
+      if (is_mode_advance){
+        opciones = horarioData.filter((x) => x.TIPO!=="CLAS").map((x)=>x.TIPO);
+        if (opciones.length === 0){
+          
+          //Poner una alerta el ramo no tiene ayudantias
+          // return 'No existen ayudantias';
+          //
+        }else if(opciones.length===1){
+          horarioData = horarioData.filter((x) => x.TIPO!=="CLAS");
+          // horarioData[0].setAttribute('ayudantia',true);
+          // horarioData = horarioData.map((x) => x.AYUDANTIA = true)
+          // horarioData = horarioData.map((x) => x.ayudantia = true)
+          horarioData = horarioData.map((x) => x['ayudantia'] = true)
+
+          
+
+
+        }
+        else{
+  
+          const inputOptions = {
+            [opciones[0]]: `${opciones[0]}`,
+            [opciones[1]]: `${opciones[1]}`
+          };
+          
+          const { value: tipo_ayudantia } =  await Swal.fire({
+            title: "Que tipo de ayudantia quieres hacer?",
+            input: "radio",
+            inputOptions,
+            inputValidator: (value) => {
+              if (!value) {
+                return "Necesitas elegir algo!";
+              }
+            }
+          });
+       
+        horarioData = horarioData.filter((x) => {return x.TIPO!=="CLAS" && x.TIPO === tipo_ayudantia});
+        // horarioData[0].setAttribute('ayudantia',true);
+        // horarioData = horarioData.map((x) => x["AYUDANTIA"] = true)
+        console.log('Este es mi horario Data')
+        console.log(horarioData)
+        horarioData.map((x) => x['ayudantia'] = true)
+        console.log(horarioData)
+        
+      }
+      }
+      if(is_mode_advance){
+        if(opciones.length!=0){
+          localStorage.setItem(`ramos${NRC}Horario`, JSON.stringify(horarioData));
+        }else{
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Este ramo no tiene ayudantias",
+          });
+          ramosSelected.pop()
+          
+        }
+      }else{
+
+        localStorage.setItem(`ramos${NRC}Horario`, JSON.stringify(horarioData));
+      }
     }
 
     if (localStorage.getItem(`ramos${NRC}Pruebas`) == null) {
@@ -322,19 +389,29 @@ let get_ExamenNrc = (nrcRamo) => {
     });
 }
 
-let actualizar_horario = () => {
+let actualizar_horario =  () => {
   crearHorario();
   console.log("actualizar_horario")
-  ramosSelected.map(ramo => {
-    JSON.parse(localStorage.getItem(`ramos${ramo.NRC}Horario`)).map(clase => {
+  ramosSelected.map(async ramo => {
+    // console.log('this is my print')
+    // console.log(ramo)
+    console.log('esto es lo que se fetchea del local');
+    let clases = JSON.parse(localStorage.getItem(`ramos${ramo.NRC}Horario`));
+    console.log(clases)
+
+   
+    console.log('estoy console logeando');
+    // console.log(clases);
+    clases.map(clase => {
+        
         console.log(clase)
         diaSemana.map(dia =>{
           if (clase[dia] != "") {
             let startClase = clase[dia].split("-")[0]
             let EndClase = clase[dia].split("-")[1]
             for (let i = parseInt(startClase.split(":")[0]); `${i}:20` != EndClase; i++) {
-              console.log(`${dia} ${startClase} ${EndClase}`)
-              console.log("ADD HOUR")
+              // console.log(`${dia} ${startClase} ${EndClase}`)
+              // console.log("ADD HOUR")
               let celda = document.getElementById(`${i}-${dia}`);
               let class_ramo; 
               if (celda.innerHTML == "") {
@@ -346,10 +423,21 @@ let actualizar_horario = () => {
                 celda.style.border = "3px solid red";
                 class_ramo = "fontSizing mt-1"
               }
-              celda.innerHTML += `<div class="${class_ramo}" style="background-color: #${make_color(ramo.NRC, clase.TIPO[0])}; font-size: 90%">
+              if (clase.ayudantia){
+                celda.innerHTML += `<div class="${class_ramo}" style="background-color: #${make_color(ramo.NRC, clase.TIPO[0])}; font-size: 90%">
+                                  <p style="margin: 0%"><i>[${clase.TIPO[0]}] ${resume_title(ramo.TITULO)}</i></p> 
+                                  <p style="font-size: 80%;margin: 0%"> <i>${clase.SALA.replace("-","")} </i></p>
+                                  </div>`
+
+
+              }else{
+                celda.innerHTML += `<div class="${class_ramo}" style="background-color: #${make_color(ramo.NRC, clase.TIPO[0])}; font-size: 90%">
                                   <p style="margin: 0%">[${clase.TIPO[0]}] ${resume_title(ramo.TITULO)}</p> 
                                   <p style="font-size: 80%;margin: 0%"> ${clase.SALA.replace("-","")} </p>
                                   </div>`
+
+              }
+              
               
             }
             
@@ -399,11 +487,20 @@ let actualizar_lista = () => {
     cardBody.className = "card-body";
 
     // Contenido HTML del nuevo elemento
-    cardBody.innerHTML = `
-      <h5 class="card-title">[${resume_title(ramo)}] ${ramo}</h5>
-      <p class="card-text">Profesor: ${profesor}</p>
-      <p class="card-text">NRC: ${nrc}</p>
-    `;
+    if(ele.ayudantia){
+      cardBody.innerHTML = `
+        <h5 class="card-title"><i>[${resume_title(ramo)}] ${ramo}</i></h5>
+        <p class="card-text"><i>Profesor: ${profesor}</i></p>
+        <p class="card-text"><i>NRC: ${nrc}</i></p>
+      `;
+
+    }else{
+      cardBody.innerHTML = `
+        <h5 class="card-title">[${resume_title(ramo)}] ${ramo}</h5>
+        <p class="card-text">Profesor: ${profesor}</p>
+        <p class="card-text">NRC: ${nrc}</p>
+      `;
+    }
 
     // Agrega el nuevo elemento al contenedor
     card.appendChild(cardBody);
@@ -462,7 +559,13 @@ let actualizar_creditos = () => {
   let counter = 0
   creditCounter.innerHTML = 0
   ramosSelected.map(ramo => {
-      counter += parseInt(ramo.CREDITO)
+      console.log(ramo)
+      if (ramo.ayudantia){
+        //
+      }else{
+
+        counter += parseInt(ramo.CREDITO)
+      }
       if (counter > 33) {
         mostrarNotificacion("¡Existe Tope de Creditos!", "#c86262")
         creditHeader.classList.add("border-danger")
@@ -489,6 +592,9 @@ let eliminar_ramo = (nrcRamo) => {
 let Agregar_ramo = (ramoSelect) => {
   // Aca debe estar la logica
   console.log("Elemento seleccionado: ", ramoSelect);
+  if (is_mode_advance){
+    ramoSelect['ayudantia'] = true;
+  }
   ramosSelected.push(ramoSelect)
   console.log(ramosSelected)
   localStorage.setItem('ramosSelectedSave', JSON.stringify(ramosSelected));
