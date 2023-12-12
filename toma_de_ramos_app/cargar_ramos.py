@@ -48,8 +48,8 @@ def cargar_ramos():
                         VIERNES=data[15],
                         SABADO=data[16],
                         DOMINGO=data[17],
-                        INICIO=date_format(data[18]),
-                        FIN=date_format(data[19]),
+                        INICIO=data[18],
+                        FIN=data[19],
                         TIPO=data[20],
                         PROFESOR=data[21],
                         SALA=data[22]
@@ -60,7 +60,8 @@ def cargar_ramos():
                 print(f"line: {i+1}")
                 print(f"Problem with: \n {data}")
                 print(f"Error: {e}")
+                print("Problemas para subir los datos :c")
                 break
-    print("Datos subidos correctamente!!")
+        print("Datos subidos correctamente c:")
             
         
