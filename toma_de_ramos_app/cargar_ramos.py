@@ -4,7 +4,6 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "toma_de_ramos_dev.settings")
 import csv
 from datetime import datetime
 import django
-django.setup()
 
 from toma_de_ramos_app.models import tablaRamos
 
@@ -23,7 +22,8 @@ def date_format(date_string):
 
 def cargar_ramos():
     print("Comenzando a subir datos...")
-    ramos_csv = 'ramos.csv'
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    ramos_csv = os.path.join(script_dir, 'ramos.csv')
     with open(ramos_csv, 'r', newline='',encoding='utf-8') as csv_file:
         csv_reader = csv.reader(csv_file,delimiter=',')
         for i,row in enumerate(csv_reader):
@@ -63,8 +63,4 @@ def cargar_ramos():
                 break
     print("Datos subidos correctamente!!")
             
-
-if __name__ == '__main__':
-    cargar_ramos()
-
         
