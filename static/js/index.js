@@ -82,7 +82,7 @@ let changePageMode = (show_alert = true) => {
     is_mode_advance = true
     localStorage.setItem("pageMode", true)
 
-    if (show_alert) Swal.fire("Modo Avanzado Activado");
+    if (show_alert) Swal.fire("Modo Ayudante Activado");
     
     document.getElementById("advance-addtool").hidden = false
     document.getElementById("navbar-ico-text").innerHTML = "TR(A)"
