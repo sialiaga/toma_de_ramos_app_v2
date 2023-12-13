@@ -98,7 +98,7 @@ let changePageMode = (show_alert = true) => {
     is_mode_advance = false
     localStorage.setItem("pageMode", false)
 
-    if (show_alert) Swal.fire("Modo Ayudante");
+    if (show_alert) Swal.fire("Modo Normal");
     
     document.getElementById("advance-addtool").hidden = true
     document.getElementById("navbar-ico-text").innerHTML = "TR"
@@ -275,6 +275,8 @@ let refresh_horario = async (NRC) => {
           ramosSelected.pop()
           
         }
+
+
       }else{
 
         localStorage.setItem(`ramos${NRC}Horario`, JSON.stringify(horarioData));
@@ -290,7 +292,7 @@ let refresh_horario = async (NRC) => {
       const examenData = await get_ExamenNrc(NRC);
       localStorage.setItem(`ramos${NRC}Examen`, JSON.stringify(examenData));
     }
-
+    tmp_loading = loading();
     refresh_page();
   } catch (error) {
     console.error(error);
