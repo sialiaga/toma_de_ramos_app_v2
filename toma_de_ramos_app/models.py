@@ -25,3 +25,5 @@ class tablaRamos(models.Model):
     TIPO = models.CharField(max_length=10)
     PROFESOR = models.CharField(max_length=100, blank=True, null=True)
     SALA = models.CharField(max_length=10, blank=True, null=True)
+
+    
