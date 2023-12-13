@@ -65,4 +65,5 @@ def cargar_ramos():
                 break
         print("Datos subidos correctamente c:")
             
-        
+if __name__ == '__main__':
+    cargar_ramos()        
