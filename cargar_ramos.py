@@ -4,6 +4,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "toma_de_ramos_dev.settings")
 import csv
 from datetime import datetime
 import django
+django.setup()
 
 from toma_de_ramos_app.models import tablaRamos
 
