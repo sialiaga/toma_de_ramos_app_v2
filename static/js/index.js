@@ -687,7 +687,7 @@ let busqueda = () => {
 let SaveHorario = () => {
   const elementToConvert = document.getElementById('MainTable'); 
 
-  html2canvas(elementToConvert).then(function(canvas) {
+  html2canvas(elementToConvert, { scale: 2, quality: 1 }).then(function(canvas) {
     canvas.toBlob(function(blob) {
         const url = URL.createObjectURL(blob);
 
@@ -732,7 +732,7 @@ let SaveEvaluaciones = () => {
   document.body.appendChild(clone);
 
   // Captura una imagen del clon
-  html2canvas(clone).then(function(canvas) {
+  html2canvas(clone, { scale: 2, quality: 1 }).then(function(canvas) {
     canvas.toBlob(function(blob) {
         const url = URL.createObjectURL(blob);
 
@@ -768,7 +768,7 @@ let SaveDetalles = () => {
   document.body.appendChild(clone);
 
   // Captura una imagen del clon
-  html2canvas(clone).then(function(canvas) {
+  html2canvas(clone, { scale: 2, quality: 1 }).then(function(canvas) {
     canvas.toBlob(function(blob) {
         const url = URL.createObjectURL(blob);
 
