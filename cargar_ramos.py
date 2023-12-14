@@ -21,6 +21,7 @@ def date_format(date_string):
             continue
     raise ValueError("Date string does not match any expected format.")
 
+
 def cargar_ramos():
     print("Comenzando a subir datos...")
     script_dir = os.path.dirname(os.path.abspath(__file__))

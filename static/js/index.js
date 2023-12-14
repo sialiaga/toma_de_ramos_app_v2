@@ -8,8 +8,22 @@ const URL_BASE = window.location.origin
 // DOM VARS
 let searchInput = document.getElementById("searchInput");
 let selectElement = document.getElementById("miSelect"); 
-
+const showLoadingAlert = () => {
+  return Swal.fire({
+    title: 'Cargando...',
+    allowEscapeKey: false,
+    allowOutsideClick: false,
+    showConfirmButton: false,
+    html:'<div class="spinner-border" role="status"><span class="sr-only"></span></div>',
+    onBeforeOpen: () => {
+      Swal.showLoading();
+      
+    },
+  })
+};
 let is_mode_advance = false
+const loading = showLoadingAlert;
+let tmp_loading = '';
 
 
 
@@ -68,7 +82,7 @@ let changePageMode = (show_alert = true) => {
     is_mode_advance = true
     localStorage.setItem("pageMode", true)
 
-    if (show_alert) Swal.fire("Modo Avanzado Activado");
+    if (show_alert) Swal.fire("Modo Ayudante Activado");
     
     document.getElementById("advance-addtool").hidden = false
     document.getElementById("navbar-ico-text").innerHTML = "TR(A)"
@@ -84,7 +98,7 @@ let changePageMode = (show_alert = true) => {
     is_mode_advance = false
     localStorage.setItem("pageMode", false)
 
-    if (show_alert) Swal.fire("Modo Avanzado Desactivado");
+    if (show_alert) Swal.fire("Modo Normal");
     
     document.getElementById("advance-addtool").hidden = true
     document.getElementById("navbar-ico-text").innerHTML = "TR"
@@ -197,8 +211,9 @@ const resume_title = (title) => {
 };
 
 let refresh_horario = async (NRC) => {
-  
+  // loading()
   try {
+
     if (localStorage.getItem(`ramos${NRC}Horario`) == null) {
       let horarioData = await get_HorarioNrc(NRC);
       //!ACA ES DONDE HAY QUE CAMBIAR Y HACER LAS CONSULTAS, GIL
@@ -260,6 +275,8 @@ let refresh_horario = async (NRC) => {
           ramosSelected.pop()
           
         }
+
+
       }else{
 
         localStorage.setItem(`ramos${NRC}Horario`, JSON.stringify(horarioData));
@@ -275,7 +292,7 @@ let refresh_horario = async (NRC) => {
       const examenData = await get_ExamenNrc(NRC);
       localStorage.setItem(`ramos${NRC}Examen`, JSON.stringify(examenData));
     }
-
+    tmp_loading = loading();
     refresh_page();
   } catch (error) {
     console.error(error);
@@ -285,6 +302,13 @@ let refresh_horario = async (NRC) => {
     localStorage.removeItem(`ramos${NRC}Pruebas`); 
     localStorage.removeItem(`ramos${NRC}Examen`); 
     redNotification();
+  }finally{
+    try{
+      tmp_loading.close();
+
+    }catch{
+      //
+    }
   }
 };
 
@@ -673,6 +697,8 @@ let busqueda = () => {
         
         item.addEventListener("click", function() {
           document.querySelector(".search-results").style.display = "none";
+          tmp_loading = loading();
+          // tmp_loading
           Agregar_ramo(result)
         });
 
