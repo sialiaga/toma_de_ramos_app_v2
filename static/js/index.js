@@ -84,7 +84,7 @@ let changePageMode = (show_alert = true) => {
 
     if (show_alert) Swal.fire("Modo Ayudante Activado");
     
-    document.getElementById("advance-addtool").hidden = false
+    // document.getElementById("advance-addtool").hidden = false
     document.getElementById("navbar-ico-text").innerHTML = "TR(A)"
     document.title = "TR(A)"
     document.getElementById("navbar-base").classList.replace("bg-secondary","bg-dark");
@@ -100,7 +100,7 @@ let changePageMode = (show_alert = true) => {
 
     if (show_alert) Swal.fire("Modo Normal");
     
-    document.getElementById("advance-addtool").hidden = true
+    // document.getElementById("advance-addtool").hidden = true
     document.getElementById("navbar-ico-text").innerHTML = "TR"
     document.title = "TR"
     document.getElementById("navbar-base").classList.replace("bg-dark", "bg-secondary");
