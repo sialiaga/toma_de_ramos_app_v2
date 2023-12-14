@@ -82,13 +82,17 @@ let changePageMode = (show_alert = true) => {
     is_mode_advance = true
     localStorage.setItem("pageMode", true)
 
-    if (show_alert) Swal.fire("Modo Ayudante Activado");
+    if (show_alert) Swal.fire({
+      title:"Modo Ayudante",
+      text:'El modo ayudante te permite agregar ramos en los cuales planeas realizar algun labor de ayudante durante el semestre, solamente podras agregar Catedras o Laboratorios y los creditos no seran cotemplados.'
+    });
     
     document.getElementById("advance-addtool").hidden = false
     document.getElementById("navbar-ico-text").innerHTML = "TR(A)"
     document.title = "TR(A)"
     document.getElementById("navbar-base").classList.replace("bg-secondary","bg-dark");
-
+    document.getElementById('navbar-ico').classList.replace("btn-dark","btn-secondary")
+    document.getElementById('navbar-ico').innerText = "Modo Estudiante";
     agregarOpcionesBusqueda("NRC")
     agregarOpcionesBusqueda("CREDITO")
     
@@ -98,12 +102,14 @@ let changePageMode = (show_alert = true) => {
     is_mode_advance = false
     localStorage.setItem("pageMode", false)
 
-    if (show_alert) Swal.fire("Modo Normal");
+    if (show_alert) Swal.fire("Modo Estudiante");
     
     document.getElementById("advance-addtool").hidden = true
     document.getElementById("navbar-ico-text").innerHTML = "TR"
     document.title = "TR"
     document.getElementById("navbar-base").classList.replace("bg-dark", "bg-secondary");
+    document.getElementById('navbar-ico').classList.replace("btn-secondary","btn-dark")
+    document.getElementById('navbar-ico').innerText = "Modo Ayudante";
 
     EliminarOpcionesBusqueda("NRC")
     EliminarOpcionesBusqueda("CREDITO")
