@@ -1,4 +1,4 @@
-# 🌐 Cómo Utilizar Entornos Virtuales 🌐
+# 🌐 Configurar el Entorno Virtual 🌐
 
 La forma correcta de trabajar en un proyecto de Django es mediante el uso de entornos virtuales. Esto garantiza que todo el equipo trabaje en las mismas condiciones. A continuación, un breve tutorial para quienes estén interesados en esto! 💡
 
@@ -22,7 +22,7 @@ Luego, activa el entorno de la siguiente manera, dependiendo de tu sistema opera
 
 - Acceso mediante Windows (cmd):
 
-    ```bash
+    ```
     env/Scripts/activate
     ```
 
@@ -57,14 +57,20 @@ Una vez que la tabla esté creada, para cargar los datos, ejecuta el archivo enc
 python cargar_ramos.py
 ```
 
+<em>Mencionar que para cargar los datos en Heroku se tiene que usar este mismo comando en la consola de Heroku </em>
+
 En la consola, deberías ver las siguientes líneas:
 
 ```bash
 Tabla Limpiada.
 Comenzando a subir datos...
+Upload [...]
+Upload [...]
+...
 Datos subidos correctamente!!
 ```
 Listo! 🐣
+
 
 # 🧭 Acceso a End-Points 🧭
 Se definidio una serie de endpoint para acceder desde el front-end de la web a los diferentes datos presentes en la base datos.Estos puntos de accesos son los siguientes
@@ -89,10 +95,3 @@ Se definidio una serie de endpoint para acceder desde el front-end de la web a l
   - Link: `<URL-BASE>/api/curso/NRC/<NRC>/examen`
   - Respuesta: Responda con todas las filas de relacionados al examen de un curso, segun el NRC entregado
 
-
-
-# 🔗 Enlaces utiles 🔗
-
-## [📊Miro](https://miro.com/welcomeonboard/aVowMjBSend0ZEt0dDkwOFNXSE5zVGNCVzFFWWZQTnFKRk1qenZsQ3ZwTUxTdWxwajN4Q1NBSXNPdG0zUkJuT3wzNDU4NzY0NTI0OTgwNTY3ODMwfDI=?share_link_id=294707861775)
-
-## [📑Trello](https://trello.com/b/jBEMMwqU/intro)
