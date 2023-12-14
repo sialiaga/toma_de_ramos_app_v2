@@ -29,6 +29,7 @@ def cargar_ramos():
         csv_reader = csv.reader(csv_file,delimiter=',')
         for i,row in enumerate(csv_reader):
             data = row
+            print("Upload", data)
             try: 
                 ramo = tablaRamos(
                         PERIODO=int(data[0].lstrip('\ufeff').strip()),
