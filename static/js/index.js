@@ -235,7 +235,8 @@ let refresh_horario = async (NRC) => {
           // horarioData[0].setAttribute('ayudantia',true);
           // horarioData = horarioData.map((x) => x.AYUDANTIA = true)
           // horarioData = horarioData.map((x) => x.ayudantia = true)
-          horarioData = horarioData.map((x) => x['ayudantia'] = true)
+          horarioData.map((x) => x['ayudantia'] = true)
+          console.log('Estoy aca EN DONDE HAY UNA OPCION');
 
           
 
@@ -259,18 +260,20 @@ let refresh_horario = async (NRC) => {
             }
           });
        
-        horarioData = horarioData.filter((x) => {return x.TIPO!=="CLAS" && x.TIPO === tipo_ayudantia});
-        // horarioData[0].setAttribute('ayudantia',true);
-        // horarioData = horarioData.map((x) => x["AYUDANTIA"] = true)
-        console.log('Este es mi horario Data')
-        console.log(horarioData)
-        horarioData.map((x) => x['ayudantia'] = true)
-        console.log(horarioData)
+          horarioData = horarioData.filter((x) => {return x.TIPO!=="CLAS" && x.TIPO === tipo_ayudantia});
+          // horarioData[0].setAttribute('ayudantia',true);
+          // horarioData = horarioData.map((x) => x["AYUDANTIA"] = true)
+          console.log('Este es mi horario Data')
+          console.log(horarioData)
+          horarioData.map((x) => x['ayudantia'] = true)
+          console.log(horarioData)
         
-      }
+        }
       }
       if(is_mode_advance){
         if(opciones.length!=0){
+          console.log(opciones)
+          console.log(horarioData)
           localStorage.setItem(`ramos${NRC}Horario`, JSON.stringify(horarioData));
         }else{
           Swal.fire({
